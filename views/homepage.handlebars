@@ -1,0 +1,11 @@
+{{#each blogs as |blog|}}
+  <div class='card'>
+    <div class='card-header'>
+      <h5>{{blog.title}}</h5>
+      <p>{{blog.username}}</p>
+    </div>
+    <div class='card-body'>
+      <p class='card-text'>{{blog.contents}}</p>
+    </div>
+  </div>
+{{/each}}
