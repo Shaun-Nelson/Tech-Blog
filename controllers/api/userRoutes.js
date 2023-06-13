@@ -5,9 +5,8 @@ const { User } = require('../../models');
 router.post('/', async (req, res) => {
   try {
     const newUser = await req.body;
-    console.log(req.body);
     // hash the password from 'req.body' and save to newUser
-    newUser.password = await bcrypt.hash(req.body.password, 10);
+    // newUser.password = await bcrypt.hash(req.body.password, 10);
     // create the newUser with the hashed pw and save to db
     const userData = await User.create(newUser);
 
@@ -32,7 +31,6 @@ router.post('/login', async (req, res) => {
         .json({ message: 'Incorrect email or password, please try again' });
       return;
     }
-
     const validPassword = await userData.checkPassword(req.body.password);
 
     if (!validPassword) {
