@@ -53,6 +53,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// Delete
 router.delete('/:id', async (req, res) => {
   try {
     const blog = Blog.destroy({
