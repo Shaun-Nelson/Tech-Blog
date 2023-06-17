@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
+const User = require('./User');
 
 class Blog extends Model {}
 
@@ -28,13 +29,21 @@ Blog.init(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    // user_id: {
-    //   type: DataTypes.INTEGER,
-    //   references: {
-    //     model: 'user',
-    //     key: 'id',
-    //   },
-    // },
+    comment: {
+      type: DataTypes.TEXT,
+    },
+    selected: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: User,
+        key: 'id',
+      },
+    },
   },
   {
     sequelize,

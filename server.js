@@ -4,8 +4,8 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 const routes = require('./controllers');
 const helpers = require('./utils/helpers');
-const seed = require('./seeds/seed');
-const Blog = require('./models/Blog');
+// const seed = require('./seeds/seed');
+// const Blog = require('./models/Blog');
 
 const sequelize = require('./config/connection');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -43,11 +43,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(routes);
 
-app.get('/seed', (req, res) => {
-  Blog.bulkCreate(seed())
-    .then(res.send('Success!'))
-    .catch((err) => res.json(err));
-});
+// app.get('/seed', (req, res) => {
+//   Blog.bulkCreate(seed())
+//     .then(res.send('Success!'))
+//     .catch((err) => res.json(err));
+// });
 
 sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));

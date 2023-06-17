@@ -1,0 +1,22 @@
+<h3 style='text-align: center;'>Leave A Comment</h3>
+<div class='card'>
+  <div class='card-header'>
+    <h5 class='title'>{{blog.dataValues.title}}
+      <span class='id'>{{blog.dataValues.id}}</span></h5>
+    <p>Posted by
+      <span class='username'>{{blog.dataValues.username}}</span>
+      on
+      <span class='date'>{{format_date blog.dataValues.date_created}}</span></p>
+  </div>
+  <div class='card-body'>
+    <p class='card-text'>{{blog.dataValues.contents}}</p>
+  </div>
+  <div class='form-floating'>
+    <textarea
+      class='form-control'
+      placeholder='Leave a comment here'
+      id='comment'
+    ></textarea>
+    <label for='comment'>Comments</label>
+  </div>
+</div>

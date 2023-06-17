@@ -86,4 +86,16 @@ router.get('/dashboard', (req, res) => {
   res.render('dashboard');
 });
 
+router.get('/comment', async (req, res) => {
+  // Find the clicked blog
+  const blog = await Blog.findOne({ where: { selected: true } });
+  blog.get({ plain: true });
+  // console.log('BLOG:', blog);
+
+  res.render('comment', {
+    blog,
+    loggedIn: req.session.loggedIn,
+  });
+});
+
 module.exports = router;
