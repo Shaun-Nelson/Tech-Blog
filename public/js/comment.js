@@ -1,31 +1,23 @@
+const commentField = document.querySelector('#comment');
+
+const submitBtn = document.querySelector('#submit');
+
 const handleClick = async (event) => {
   event.preventDefault();
 
-  const title = document.querySelector('.title').innerHTML;
-  const username = document.querySelector('.username').innerHTML;
-  const date = document.querySelector('.date').innerHTML;
-  const contents = document.querySelector('.card-text').innerHTML;
-  const id = document.querySelector('.id').innerHTML;
+  const response = await fetch('/api/comment', {
+    method: 'PUT',
+    body: JSON.stringify({ comment: commentField.value }),
+    headers: { 'Content-Type': 'application/json' },
+  });
 
-  if (id) {
-    const response = await fetch('/api/comment', {
-      method: 'POST',
-      body: JSON.stringify({ id: id }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    if (response.ok) {
-      const blog = response.json();
-      // console.log('BLOG:', blog);
-      document.location.replace('/comment');
-    }
+  if (response.ok) {
+    //Reset the comment textarea field
+    commentField.value = '';
+    // document.location.replace('/');
   } else {
     alert(response.statusText);
   }
 };
 
-const cards = document.querySelectorAll('.card');
-
-for (let card of cards) {
-  card.addEventListener('click', handleClick);
-}
+submitBtn.addEventListener('click', handleClick);

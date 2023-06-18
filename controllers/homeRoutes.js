@@ -89,13 +89,17 @@ router.get('/dashboard', (req, res) => {
 router.get('/comment', async (req, res) => {
   // Find the clicked blog
   const blog = await Blog.findOne({ where: { selected: true } });
-  blog.get({ plain: true });
-  // console.log('BLOG:', blog);
 
-  res.render('comment', {
-    blog,
-    loggedIn: req.session.loggedIn,
-  });
+  if (blog) {
+    blog.get({ plain: true });
+
+    res.render('comment', {
+      blog,
+      loggedIn: req.session.loggedIn,
+    });
+  } else {
+    res.status(500).json({ message: 'Server Error' });
+  }
 });
 
 module.exports = router;
