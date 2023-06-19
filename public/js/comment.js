@@ -1,5 +1,4 @@
 const commentField = document.querySelector('#comment');
-
 const submitBtn = document.querySelector('#submit');
 
 const handleClick = async (event) => {
@@ -14,10 +13,10 @@ const handleClick = async (event) => {
   if (response.ok) {
     //Reset the comment textarea field
     commentField.value = '';
-    // document.location.replace('/');
+    document.location.reload();
   } else {
     alert(response.statusText);
   }
 };
 
-submitBtn.addEventListener('click', handleClick);
+if (submitBtn) submitBtn.addEventListener('click', handleClick);

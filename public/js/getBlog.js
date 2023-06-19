@@ -1,7 +1,9 @@
 const handleClick = async (event) => {
   event.preventDefault();
 
-  const id = document.querySelector('.id').innerHTML;
+  const selectedCard = event.currentTarget;
+  const span = selectedCard.querySelectorAll('#id')[0];
+  const id = span.getAttribute('data-id');
 
   if (id) {
     const response = await fetch('/api/comment', {
@@ -11,7 +13,6 @@ const handleClick = async (event) => {
     });
 
     if (response.ok) {
-      // const blog = response.json();
       document.location.replace('/comment');
     }
   } else {

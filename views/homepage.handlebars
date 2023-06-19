@@ -1,7 +1,9 @@
 {{#each blogs as |blog|}}
   <div class='card'>
     <div class='card-header'>
-      <h5 class='title'>{{blog.title}} <span class='id'>{{blog.id}}</span></h5>
+      <h5 class='title'><span id='id' data-id='{{blog.id}}'>{{blog.id}}.
+        </span>{{blog.title}}
+      </h5>
       <p>Posted by
         <span class='username'>{{blog.username}}</span>
         on

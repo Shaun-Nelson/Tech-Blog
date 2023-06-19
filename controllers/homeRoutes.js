@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Blog = require('../models/Blog');
+const { Blog, Comment, User } = require('../models/');
 
 // Read
 router.get('/', async (req, res) => {
@@ -26,6 +26,7 @@ router.post('/', async (req, res) => {
       title: req.body.title,
       contents: req.body.contents,
       username: req.body.username,
+      user_id: req.session.user_id,
     });
     res.status(200).json(blog);
   } catch (err) {
@@ -75,7 +76,7 @@ router.get('/sign-up', (req, res) => {
 router.get('/login', (req, res) => {
   // If the user is already logged in, redirect to the homepage
   if (req.session.loggedIn) {
-    res.redirect('/');
+    res.status(200).json({ message: 'Already logged in' }).redirect('/');
     return;
   }
   // Otherwise, render the 'login' template
@@ -87,18 +88,38 @@ router.get('/dashboard', (req, res) => {
 });
 
 router.get('/comment', async (req, res) => {
-  // Find the clicked blog
-  const blog = await Blog.findOne({ where: { selected: true } });
-
-  if (blog) {
-    blog.get({ plain: true });
-
-    res.render('comment', {
-      blog,
-      loggedIn: req.session.loggedIn,
+  try {
+    // Find the clicked blog
+    const blog = await Blog.findOne({
+      where: { id: req.session.selected_blog_id },
     });
-  } else {
-    res.status(500).json({ message: 'Server Error' });
+
+    console.log(blog);
+
+    if (blog) {
+      blog.get({ plain: true });
+
+      // Get the comment associated with the clicked blog
+      const comment = await Comment.findOne({ where: { blog_id: blog.id } });
+
+      console.log('COMMENT:', comment);
+
+      // Get the currently logged in user's information
+      const user = await User.findOne({ where: { id: req.session.user_id } });
+
+      console.log('USER:', user);
+
+      res.status(200).render('comment', {
+        blog,
+        comment,
+        user,
+        loggedIn: req.session.loggedIn,
+      });
+    } else {
+      res.status(404).json({ message: 'Selected blog not found.' });
+    }
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
