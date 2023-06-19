@@ -24,10 +24,6 @@ Blog.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    selected: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
     date_created: {
       type: DataTypes.DATE,
       allowNull: false,

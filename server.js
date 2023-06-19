@@ -19,7 +19,7 @@ const hbs = exphbs.create({ helpers });
 const sess = {
   secret: process.env.SECRET,
   cookie: {
-    maxAge: 300000,
+    maxAge: 1000 * 60 * 60 * 24,
     httpOnly: true,
     secure: false,
     sameSite: 'strict',
@@ -42,12 +42,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(routes);
-
-// app.get('/seed', (req, res) => {
-//   Blog.bulkCreate(seed())
-//     .then(res.send('Success!'))
-//     .catch((err) => res.json(err));
-// });
 
 sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));

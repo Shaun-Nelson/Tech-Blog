@@ -23,7 +23,7 @@ Comment.belongsTo(User, {
   foreignKey: 'author_id',
 });
 
-// BlogPost and Comment relationship
+// Blog and Comment relationship
 Blog.hasMany(Comment, {
   foreignKey: 'blog_id',
   onDelete: 'CASCADE',

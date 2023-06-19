@@ -74,14 +74,21 @@ router.get('/sign-up', (req, res) => {
 
 // Login route
 router.get('/login', (req, res) => {
-  // If the user is already logged in, redirect to the homepage
-  if (req.session.loggedIn) {
-    res.status(200).json({ message: 'Already logged in' }).redirect('/');
-    return;
+  try {
+    return res.status(200).render('login', { loggedIn: req.session.loggedIn });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server Error' });
   }
-  // Otherwise, render the 'login' template
-  res.render('login');
 });
+// // If the user is already logged in, redirect to the homepage
+// if (req.session.loggedIn) {
+//   res.status(200).json({ message: 'Already logged in' }).redirect('/');
+//   return;
+// }
+// // Otherwise, render the 'login' template
+// res.render('login');
+// });
 
 router.get('/dashboard', (req, res) => {
   res.render('dashboard');
@@ -94,24 +101,18 @@ router.get('/comment', async (req, res) => {
       where: { id: req.session.selected_blog_id },
     });
 
-    console.log(blog);
-
     if (blog) {
       blog.get({ plain: true });
 
       // Get the comment associated with the clicked blog
-      const comment = await Comment.findOne({ where: { blog_id: blog.id } });
-
-      console.log('COMMENT:', comment);
+      const comments = await Comment.findAll({ where: { blog_id: blog.id } });
 
       // Get the currently logged in user's information
       const user = await User.findOne({ where: { id: req.session.user_id } });
 
-      console.log('USER:', user);
-
       res.status(200).render('comment', {
         blog,
-        comment,
+        comments,
         user,
         loggedIn: req.session.loggedIn,
       });
