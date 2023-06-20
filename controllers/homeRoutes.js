@@ -22,12 +22,16 @@ router.get('/', async (req, res) => {
 // Create
 router.post('/', async (req, res) => {
   try {
+    const user = await User.findOne({ where: { id: req.session.user_id } });
+    const username = user.dataValues.username;
+
     const blog = await Blog.create({
       title: req.body.title,
-      contents: req.body.contents,
-      username: req.body.username,
+      contents: req.body.content,
+      username: username,
       user_id: req.session.user_id,
     });
+    console.log('BLOG: ', blog);
     res.status(200).json(blog);
   } catch (err) {
     res.status(500).json(err);
@@ -90,8 +94,20 @@ router.get('/login', (req, res) => {
 // res.render('login');
 // });
 
-router.get('/dashboard', (req, res) => {
-  res.render('dashboard');
+router.get('/dashboard', async (req, res) => {
+  try {
+    const blogs = await Blog.findAll({
+      where: { user_id: req.session.user_id },
+    });
+    blogs.map((blog) => blog.get({ plain: true }));
+
+    res.render('dashboard', {
+      blogs,
+      loggedIn: req.session.loggedIn,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.get('/comment', async (req, res) => {
