@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Blog, Comment, User } = require('../models/');
+const withAuth = require('../utils/auth.js');
 
 // Read
 router.get('/', async (req, res) => {
@@ -31,7 +32,6 @@ router.post('/', async (req, res) => {
       username: username,
       user_id: req.session.user_id,
     });
-    console.log('BLOG: ', blog);
     res.status(200).json(blog);
   } catch (err) {
     res.status(500).json(err);
@@ -44,7 +44,7 @@ router.put('/:id', async (req, res) => {
     const blog = await Blog.update(
       {
         title: req.body.title,
-        contents: req.body.contents,
+        contents: req.body.content,
       },
       {
         where: {
@@ -79,20 +79,16 @@ router.get('/sign-up', (req, res) => {
 // Login route
 router.get('/login', (req, res) => {
   try {
-    return res.status(200).render('login', { loggedIn: req.session.loggedIn });
+    // If the user is already logged in, send them to the dashboard page
+    if (req.session.loggedIn) {
+      res.redirect('/dashboard');
+    }
+    return res.status(200).render('login');
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Server Error' });
   }
 });
-// // If the user is already logged in, redirect to the homepage
-// if (req.session.loggedIn) {
-//   res.status(200).json({ message: 'Already logged in' }).redirect('/');
-//   return;
-// }
-// // Otherwise, render the 'login' template
-// res.render('login');
-// });
 
 router.get('/dashboard', async (req, res) => {
   try {
@@ -103,10 +99,12 @@ router.get('/dashboard', async (req, res) => {
 
     res.render('dashboard', {
       blogs,
-      loggedIn: req.session.loggedIn,
+      loggedIn: true,
     });
   } catch (err) {
-    res.status(500).json(err);
+    res
+      .status(500)
+      .json({ message: 'You must be logged in to view the dashboard' });
   }
 });
 
@@ -118,23 +116,39 @@ router.get('/comment', async (req, res) => {
     });
 
     if (blog) {
-      blog.get({ plain: true });
+      await blog.get({ plain: true });
 
       // Get the comment associated with the clicked blog
       const comments = await Comment.findAll({ where: { blog_id: blog.id } });
 
-      // Get the currently logged in user's information
-      const user = await User.findOne({ where: { id: req.session.user_id } });
+      // // Get the currently logged in user's information
+      // const user = await User.findOne({ where: { id: req.session.user_id } });
 
       res.status(200).render('comment', {
         blog,
         comments,
-        user,
-        loggedIn: req.session.loggedIn,
       });
     } else {
       res.status(404).json({ message: 'Selected blog not found.' });
     }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get('/edit', async (req, res) => {
+  console.log('logged in:', req.session.loggedIn);
+  try {
+    //Get the clicked blog from the dashboard
+    const blog = await Blog.findOne({
+      where: { id: req.session.selected_blog_id },
+    });
+    await blog.get({ plain: true });
+
+    res.status(200).render('editPost', {
+      blog,
+      loggedIn: req.session.loggedIn,
+    });
   } catch (err) {
     res.status(500).json(err);
   }

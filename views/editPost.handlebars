@@ -1,12 +1,27 @@
 <h3 style='text-align: center;'>Edit Blog Post</h3>
 
 <div class='mb-3'>
+  <h5 class='title'><span
+      id='id'
+      data-id='{{blog.dataValues.id}}'
+    >{{blog.dataValues.id}}.
+    </span>{{blog.dataValues.title}}
+  </h5>
   <label for='title' class='form-label'>Blog Title</label>
-  <input type='text' class='form-control' id='title' />
+  <input
+    type='text'
+    class='form-control'
+    id='title'
+    placeholder='{{blog.dataValues.title}}'
+  />
 </div>
 <div class='mb-3'>
   <label for='content' class='form-label'>Blog Content</label>
-  <textarea class='form-control' id='content' rows='3'></textarea>
+  <textarea
+    class='form-control'
+    id='content'
+    rows='3'
+  >{{blog.dataValues.contents}}</textarea>
 </div>
 <button id='update' class='btn btn-primary'>Update Post</button>
 <button id='delete' class='btn btn-primary'>Delete Post</button>

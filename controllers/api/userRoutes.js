@@ -3,10 +3,10 @@ const { User } = require('../../models');
 
 router.post('/', async (req, res) => {
   try {
+    // Create a new User entry from the request body
     const newUser = await req.body;
-    // hash the password from 'req.body' and save to newUser
-    // newUser.password = await bcrypt.hash(req.body.password, 10);
-    // create the newUser with the hashed pw and save to db
+
+    // The User password will be hashed on creation. Create the new User with the hashed pw and save to db
     const userData = await User.create(newUser);
 
     req.session.save(() => {

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Comment } = require('../../models');
+const { Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 router.post('/', async (req, res) => {
@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/', async (req, res) => {
+router.put('/', withAuth, async (req, res) => {
   try {
     const comment = await Comment.create({
       comment: req.body.comment,
@@ -30,7 +30,7 @@ router.put('/', async (req, res) => {
 
     res.status(200).json({ message: 'Successful Comment' });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 

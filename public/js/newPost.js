@@ -1,6 +1,7 @@
 const createBtn = document.querySelector('#create');
+const cards = document.querySelectorAll('.card');
 
-const handleClick = async (event) => {
+const handleCreate = async (event) => {
   event.preventDefault();
 
   const response = await fetch('/api/post');
@@ -12,4 +13,28 @@ const handleClick = async (event) => {
   }
 };
 
-createBtn.addEventListener('click', handleClick);
+const handleClick = async (event) => {
+  event.preventDefault();
+
+  const selectedCard = event.currentTarget;
+  const span = selectedCard.querySelectorAll('#id')[0];
+  const id = span.getAttribute('data-id');
+
+  const response = await fetch('/api/comment', {
+    method: 'POST',
+    body: JSON.stringify({ id: id }),
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  if (response.ok) {
+    document.location.replace('/edit');
+  } else {
+    alert(response.statusText);
+  }
+};
+
+createBtn.addEventListener('click', handleCreate);
+
+for (let card of cards) {
+  card.addEventListener('click', handleClick);
+}
