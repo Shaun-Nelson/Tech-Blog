@@ -15,17 +15,20 @@
 
   <body>
     <header>
-      <nav>
-        <a href='/'>Home</a>
-        <a href='/dashboard'>Dashboard</a>
-        {{#if loggedIn}}
-          <button id='logout' class='btn btn-primary'>Logout</button>
-        {{else}}
-          <!-- Otherwise, show a link to login -->
-          <a href='/login'>Login</a>
-        {{/if}}
+      <nav class='ps-3'>
+        <ul class="m-0">
+          <li class='px-3'><a href='/'>Home</a></li>
+            <li class='px-3'><a href='/dashboard'>Dashboard</a></li>
+            {{#if loggedIn}}
+              <li class="px-3"><a id="logout" href="#">Logout</a></li>
+            {{else}}
+              <!-- Otherwise, show a link to login -->
+              <li class='px-3'><a href='/login'>Login</a></li>
+            {{/if}}</li>
+        </ul>
+
       </nav>
-      <h1>The Tech Blog</h1>
+      <h1 class='main-header'>The Tech Blog</h1>
     </header>
 
     <main>

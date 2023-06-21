@@ -1,5 +1,6 @@
+<h3 class='secondary-header'>Dashboard</h3>
 {{#each blogs as |blog|}}
-  <div class='card'>
+  <div class='card w-75 mx-auto mb-5'>
     <div class='card-header'>
       <h5 class='title'><span id='id' data-id='{{blog.id}}'>{{blog.id}}.
         </span>{{blog.title}}
@@ -15,5 +16,7 @@
   </div>
 {{/each}}
 
-<button class='btn btn-primary' id='create'>Create New Blog Post</button>
+<div class='text-center'>
+  <button class='btn btn-primary' id='create'>Create New Blog Post</button>
+</div>
 <script src='./js/newPost.js'></script>

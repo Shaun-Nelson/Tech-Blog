@@ -11,9 +11,10 @@ const handleClick = async (event) => {
   });
 
   if (response.ok) {
+    console.log(response.json());
     //Reset the comment textarea field
     commentField.value = '';
-    document.location.reload();
+    // document.location.reload();
   } else {
     alert(response.statusText);
   }

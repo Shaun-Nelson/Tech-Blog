@@ -1,3 +1,54 @@
+:root {
+  --text-primary: #fff;
+  --text-seconday: rgba(255, 255, 255, 0.7);
+  --btn-hover: rgba(255, 255, 255, 0.08);
+  --btn-selected: rgba(255, 255, 255, 0.16);
+  --bg: #121212;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+}
+
+main {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  height: 100%;
+}
+
+nav {
+  background-color: var(--bg);
+  color: var(--text-primary);
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  margin: 0;
+}
+
+.main-header {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  margin: 0;
+  padding-bottom: 1rem;
+  padding-left: 3.5rem;
+}
+
+.secondary-header {
+  padding-bottom: 2rem;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: var(--btn-hover);
+}
+
+.btn:active {
+  background-color: var(--btn-selected);
+}
+
 .card-header {
   display: flex;
   justify-content: space-between;

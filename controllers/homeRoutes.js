@@ -102,9 +102,7 @@ router.get('/dashboard', async (req, res) => {
       loggedIn: true,
     });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: 'You must be logged in to view the dashboard' });
+    res.status(500).redirect('/login');
   }
 });
 
@@ -120,6 +118,9 @@ router.get('/comment', async (req, res) => {
 
       // Get the comment associated with the clicked blog
       const comments = await Comment.findAll({ where: { blog_id: blog.id } });
+
+      // Serialize comment data
+      comments.map((comment) => comment.get({ plain: true }));
 
       // // Get the currently logged in user's information
       // const user = await User.findOne({ where: { id: req.session.user_id } });
@@ -137,7 +138,6 @@ router.get('/comment', async (req, res) => {
 });
 
 router.get('/edit', async (req, res) => {
-  console.log('logged in:', req.session.loggedIn);
   try {
     //Get the clicked blog from the dashboard
     const blog = await Blog.findOne({

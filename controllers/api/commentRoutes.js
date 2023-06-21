@@ -17,6 +17,12 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/', withAuth, async (req, res) => {
+  // Multiple return statements are used so that multiple headers aren't sent back to the client
+
+  // If User isn't logged in, redirect them to the login page
+  if (!req.session.loggedIn) {
+    return res.redirect('/login');
+  }
   try {
     const comment = await Comment.create({
       comment: req.body.comment,
@@ -28,9 +34,9 @@ router.put('/', withAuth, async (req, res) => {
       return res.status(400).json({ message: 'Cannot create comment' });
     }
 
-    res.status(200).json({ message: 'Successful Comment' });
+    return res.status(200).json({ message: 'Successful Comment' });
   } catch (err) {
-    res.status(500).json({ message: 'Server Error' });
+    return res.status(500).json({ message: 'Server Error' });
   }
 });
 
