@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { Comment, User } = require('../../models');
-const withAuth = require('../../utils/auth');
 
 router.post('/', async (req, res) => {
   try {
@@ -14,11 +13,12 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.post('/new', withAuth, async (req, res) => {
+router.post('/new', async (req, res) => {
   // Multiple return statements are used so that multiple headers aren't sent back to the client
   try {
+    //If the User is not logged in, send a redirect URL via JSON that can be handled by the client-side script (/js/comment.js) as res.redirect and the withAuth middleware don't work here
     if (!req.session.loggedIn) {
-      res.redirect('/login');
+      return res.status(401).json({ redirectTo: '/login' });
     }
 
     const user = await User.findByPk(req.session.user_id);
