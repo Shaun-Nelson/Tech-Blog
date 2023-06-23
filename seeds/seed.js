@@ -3,8 +3,6 @@ const sequelize = require('../config/connection');
 const { Blog, User } = require('../models');
 const userData = require('./userData.json');
 
-console.log(userData);
-
 const seed = async () => {
   try {
     //Drop existing tables

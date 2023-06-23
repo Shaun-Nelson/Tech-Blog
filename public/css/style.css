@@ -6,6 +6,11 @@
   --bg: #121212;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   background-color: var(--bg);
   color: var(--text-primary);
@@ -14,7 +19,6 @@ body {
 main {
   background-color: var(--bg);
   color: var(--text-primary);
-  height: 100%;
 }
 
 nav {

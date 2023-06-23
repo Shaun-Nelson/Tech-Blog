@@ -22,19 +22,17 @@
     <label for='comment'>Comments</label>
     <button id='submit' class='btn btn-primary'>Submit</button>
     {{#each comments as |comment|}}
-      {{#if comment.dataValues.comment}}
-        <div class='card'>
-          <div class='card-body'>
-            <p class='card-text'>{{comment.dataValues.comment}}</p>
-            <p>Posted by
-              <span class='username'>{{blog.dataValues.username}}</span>
-              on
-              <span class='date'>{{format_date
-                  comment.dataValues.date_created
-                }}</span></p>
-          </div>
+      <div class='card'>
+        <div class='card-body'>
+          <p class='card-text'>{{comment.dataValues.comment}}</p>
+          <p>Posted by
+            <span class='username'>{{comment.dataValues.username}}</span>
+            on
+            <span class='date'>{{format_date
+                comment.dataValues.date_created
+              }}</span></p>
         </div>
-      {{/if}}
+      </div>
     {{/each}}
   </div>
 </div>

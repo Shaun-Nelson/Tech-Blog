@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
 });
 
 // Update
-router.put('/:id', async (req, res) => {
+router.put('/:id', withAuth, async (req, res) => {
   try {
     const blog = await Blog.update(
       {
@@ -59,7 +59,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
   try {
     const blog = Blog.destroy({
       where: {
@@ -90,7 +90,7 @@ router.get('/login', (req, res) => {
   }
 });
 
-router.get('/dashboard', async (req, res) => {
+router.get('/dashboard', withAuth, async (req, res) => {
   try {
     const blogs = await Blog.findAll({
       where: { user_id: req.session.user_id },
@@ -122,17 +122,28 @@ router.get('/comment', async (req, res) => {
       // Serialize comment data
       comments.map((comment) => comment.get({ plain: true }));
 
-      // // Get the currently logged in user's information
-      // const user = await User.findOne({ where: { id: req.session.user_id } });
+      // const author_ids = comments.map((comment) => comment.author_id);
+
+      // const users = await Promise.all(
+      //   author_ids.map(async (user) => {
+      //     const foundUser = await User.findOne({ where: { id: user } });
+      //     if (foundUser) {
+      //       return foundUser.get({ plain: true });
+      //     }
+      //     return null; // Return null if user not found
+      //   })
+      // );
 
       res.status(200).render('comment', {
         blog,
         comments,
+        loggedIn: req.session.loggedIn,
       });
     } else {
       res.status(404).json({ message: 'Selected blog not found.' });
     }
   } catch (err) {
+    console.log('Error:', err);
     res.status(500).json(err);
   }
 });
