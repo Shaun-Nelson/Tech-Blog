@@ -10,6 +10,14 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
 // Set up Handlebars.js engine with custom helpers and runtimeOptions to bypass Handlebars "access denied" errors
 const hbs = exphbs.create({
   helpers,
