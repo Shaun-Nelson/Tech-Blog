@@ -22,6 +22,7 @@ const handleClick = async (event) => {
 
 const cards = document.querySelectorAll('.card');
 
+// Add event listener to each card
 for (let card of cards) {
   card.addEventListener('click', handleClick);
 }

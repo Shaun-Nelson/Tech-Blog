@@ -26,6 +26,7 @@ router.post('/', async (req, res) => {
     const user = await User.findOne({ where: { id: req.session.user_id } });
     const username = user.dataValues.username;
 
+    // Create a new blog post with the entered title, content and the logged in user's username and id
     const blog = await Blog.create({
       title: req.body.title,
       contents: req.body.content,
@@ -121,18 +122,6 @@ router.get('/comment', async (req, res) => {
 
       // Serialize comment data
       comments.map((comment) => comment.get({ plain: true }));
-
-      // const author_ids = comments.map((comment) => comment.author_id);
-
-      // const users = await Promise.all(
-      //   author_ids.map(async (user) => {
-      //     const foundUser = await User.findOne({ where: { id: user } });
-      //     if (foundUser) {
-      //       return foundUser.get({ plain: true });
-      //     }
-      //     return null; // Return null if user not found
-      //   })
-      // );
 
       res.status(200).render('comment', {
         blog,

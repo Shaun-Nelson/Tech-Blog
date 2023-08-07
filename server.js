@@ -56,6 +56,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(routes);
 
+// Start the server after seeding the database and syncing the database
 const startServer = async () => {
   await seed();
 

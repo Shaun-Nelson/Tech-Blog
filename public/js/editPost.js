@@ -7,6 +7,7 @@ const handleUpdate = async (event) => {
   const title = document.querySelector('#title').value.trim();
   const content = document.querySelector('#content').value.trim();
   const span = document.querySelector('#id');
+  // The data-id attribute is set in the editPost.handlebars file
   const id = span.getAttribute('data-id');
 
   const response = await fetch('/' + id, {

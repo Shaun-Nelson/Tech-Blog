@@ -52,5 +52,4 @@ Comment.init(
   }
 );
 
-// Exports
 module.exports = Comment;

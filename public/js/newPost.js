@@ -16,6 +16,7 @@ const handleCreate = async (event) => {
 const handleClick = async (event) => {
   event.preventDefault();
 
+  // Get the id of the selected card
   const selectedCard = event.currentTarget;
   const span = selectedCard.querySelectorAll('#id')[0];
   const id = span.getAttribute('data-id');
